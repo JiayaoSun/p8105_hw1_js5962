@@ -1,32 +1,70 @@
 ---
 title: "p8105_hw1_js5962"
-output: html_document
+author: "Jiayao Sun"
+date: 2021-09-28
+output: github_document
 ---
 
-I'm an R Markdown document! 
+# Problem 1
 
-# Section 1
+* Create a data frame comprised of:
+  * a random sample of size 10 from a standard Normal distribution
+  * a logical vector indicating whether elements of the sample are greater than 0
+  * a character vector of length 10
+  * a factor vector of length 10, with 3 different factor “levels”
 
-Here's a **code chunk** that samples from 
-a _normal distribution_:
+Solution :
 
-```{r}
-samp = rnorm(10)
-length(samp)
+```{r setup, include = FALSE}
+library(tidyverse)
 ```
 
-# Section 2
+```{r df_create}
+set.seed(1234)
+
+hm1_df = tibble(
+  vec_numeric = rnorm(10),
+  vec_logical = c(vec_numeric > 0),
+  vec_char = c("a", "b", "c", "d", "e", "f", "g","h", "i", "j"),
+  vec_factor = factor(c("level 1", "level 2", "level 3", "level 1", "level 2", "level 3","level 1", "level 2", "level 3", "level 1"))
+)
+hm1_df
+```
+
+If we take the mean of each variable in your dataframe
+```{r mean, echo = FALSE}
+ mean(pull(hm1_df, vec_numeric))
+ mean(pull(hm1_df, vec_logical))
+ mean(pull(hm1_df, vec_char))
+ mean(pull(hm1_df, vec_factor))
+```
+
+Thus the number and logical vectors works for mean. The characters and factors do not work.
+
+Then we convert logical, character and factor vectors into numbers.
+_Do not show the output_
+```{r convert, results = 'hide'}
+ x = as.numeric(pull(hm1_df, vec_logical))
+ y = as.numeric(pull(hm1_df, vec_char))
+ z = as.numeric(pull(hm1_df, vec_factor))
+```
+
+Take the mean again
+```{r mean_convert, echo = FALSE}
+ mean(pull(hm1_df, vec_numeric))
+ mean(x)
+ mean(y)
+ mean(z)
+```
+
+After converting, the logical vector remains the same, which is **True = 1** and **False = 0**. The factor vector generates the numerical mean. But the character variable cannot be converted into numbers and are left as NA.
+
+# Problem 2
 
 I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
 
 
-```{r}
-library(tidyverse)
 
-plot_df = tibble(
-  x = rnorm(10)
-)
-```
+
 
 
