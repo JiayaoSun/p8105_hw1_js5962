@@ -15,6 +15,7 @@ output: github_document
 
 Solution :
 
+1. create the data frame
 ```{r setup, include = FALSE}
 library(tidyverse)
 ```
@@ -31,7 +32,7 @@ hm1_df = tibble(
 hm1_df
 ```
 
-If we take the mean of each variable in your dataframe
+2. If we take the mean of each variable in your dataframe
 ```{r mean, echo = FALSE}
  mean(pull(hm1_df, vec_numeric))
  mean(pull(hm1_df, vec_logical))
@@ -41,7 +42,7 @@ If we take the mean of each variable in your dataframe
 
 Thus the number and logical vectors works for mean. The characters and factors do not work.
 
-Then we convert logical, character and factor vectors into numbers.
+3. Then we convert logical, character and factor vectors into numbers.
 _Do not show the output_
 ```{r convert, results = 'hide'}
  x = as.numeric(pull(hm1_df, vec_logical))
@@ -49,7 +50,7 @@ _Do not show the output_
  z = as.numeric(pull(hm1_df, vec_factor))
 ```
 
-Take the mean again
+4. Take the mean again
 ```{r mean_convert, echo = FALSE}
  mean(pull(hm1_df, vec_numeric))
  mean(x)
@@ -61,7 +62,34 @@ After converting, the logical vector remains the same, which is **True = 1** and
 
 # Problem 2
 
-I can take the mean of the sample, too!
+1. Download the a package containing the penguins data set (done in console)
+2. 
+```{r penguine, results = 'hide'}
+data("penguins", package = "palmerpenguins")
+```
+
+* The **Penguins data set** has the following variables: `r ls(penguins)`.
+
+  * Bill depth (in mm), _the `r class(pull(penguins, bill_depth_mm))` variable_, has a mean of `r mean(pull(penguins, bill_depth_mm), na.rm=TRUE)`, a median of `r median(pull(penguins, bill_depth_mm), na.rm=TRUE)`, and a range of `r range(pull(penguins, bill_depth_mm), na.rm=TRUE)` (min, max).
+  * Bill length (in mm), _the `r class(pull(penguins, bill_length_mm))` variable_, has a mean of `r mean(pull(penguins, bill_length_mm), na.rm=TRUE)`, a median of `r median(pull(penguins, bill_length_mm), na.rm=TRUE)`, and a range of `r range(pull(penguins, bill_length_mm), na.rm=TRUE)` (min, max).
+  * Body mass (in g), _the `r class(pull(penguins, body_mass_g))` variable_, has a mean of `r mean(pull(penguins, body_mass_g), na.rm=TRUE)`, a median of `r median(pull(penguins, body_mass_g), na.rm=TRUE)`, and a range of `r range(pull(penguins, body_mass_g), na.rm=TRUE)` (min, max).
+  * flipper_length (in mm), _the `r class(pull(penguins, flipper_length_mm))` variable_, has a mean of `r mean(pull(penguins, flipper_length_mm), na.rm=TRUE)` and a range of `r range(pull(penguins, flipper_length_mm), na.rm=TRUE)` (min, max).
+  * Island, _the `r class(pull(penguins, island))` variable_, has `r levels(pull(penguins, island))` islands.
+  * Sex, _the `r class(pull(penguins, sex))` variable_,  has `r levels(pull(penguins, sex))` categories.
+  * Species, _the `r class(pull(penguins, species))` variable_, has `r levels(pull(penguins, species))` species.
+  * Year, _the `r class(pull(penguins, year))` variable_. has a range of year `r range(pull(penguins, year))`.
+
+The Penguin data set has `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+The mean flipper length is `r mean(pull(penguins, flipper_length_mm).
+
+3. Make a scatterplot of flipper_length_mm (y) vs bill_length_mm (x) and save it.
+```{r scatterplot}
+library(ggplot2)
+set.seed(1234)
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point() + ggtitle("Flipper Length(y) vs Bill Length(x)") + theme(plot.title = element_text(hjust = 0.6))
+ggsave("scatterplot_Problem2.pdf")
+```
+
 
 
 
